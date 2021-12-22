@@ -3,7 +3,7 @@ import * as THREE from 'three';
 
 // Setup
 
-if ( WEBGL.isWebGLAvailable() ) {
+// if ( WEBGL.isWebGLAvailable() ) {
 
 var
   camera,
@@ -126,9 +126,9 @@ function onMouseMove(event) {
 };
 
 
-} else {
+// } else {
 
-	const warning = WEBGL.getWebGLErrorMessage();
-	document.getElementById( 'bg' ).appendChild( warning );
+// 	const warning = WEBGL.getWebGLErrorMessage();
+// 	document.getElementById( 'bg' ).appendChild( warning );
 
-}
+// }
