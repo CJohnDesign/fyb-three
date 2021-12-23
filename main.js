@@ -1,5 +1,6 @@
 import './style.css';
 import * as THREE from 'three';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
 // Setup
 
@@ -33,13 +34,27 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 
 renderer.render(scene, camera);
 
+// Model data
+const loader = new GLTFLoader();
+
+loader.load( 'MiamiVisTest.glb', function ( gltf ) {
+
+  gltf.scene.scale.multiplyScalar(10);
+	scene.add( gltf.scene );
+
+}, undefined, function ( error ) {
+
+	console.error( error );
+
+} );
+
 // Torus
 
-const geometry = new THREE.TorusGeometry(20, 3, 200, 1000);
-const material = new THREE.MeshStandardMaterial({ color: 0xff6347 });
-const torus = new THREE.Mesh(geometry, material);
+//const geometry = new THREE.TorusGeometry(20, 3, 200, 1000);
+//const material = new THREE.MeshStandardMaterial({ color: 0xff6347 });
+//const torus = new THREE.Mesh(geometry, material);
 
-scene.add(torus);
+//scene.add(torus);
 
 // Lights
 
