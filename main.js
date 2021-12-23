@@ -1,5 +1,7 @@
 import './style.css';
 import * as THREE from 'three';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+
 
 // Setup
 
@@ -40,6 +42,20 @@ const material = new THREE.MeshStandardMaterial({ color: 0xff6347 });
 const torus = new THREE.Mesh(geometry, material);
 
 scene.add(torus);
+
+const loader = new GLTFLoader();
+
+loader.load( './3d/nft1.glb', function ( gltf ) {
+
+	scene.add( gltf.scene );
+  gltf.position.z = -15
+  gltf.scale(12,12,12);
+
+}, undefined, function ( error ) {
+
+	console.error( error );
+ 
+} );
 
 // Lights
 
@@ -84,9 +100,9 @@ scene.background = spaceTexture;
 function moveCamera() {
   const t = document.body.getBoundingClientRect().top;
 
-  camera.position.z = -50;
-  camera.position.x = -1 //(t * -0.025) -30;
-  camera.position.y = 10;
+  camera.position.z = t*1;
+  camera.position.x = 1 //(t * -0.025) -30;
+  camera.position.y = 1;
   camera.lookAt(1,0,0)
 }
 
