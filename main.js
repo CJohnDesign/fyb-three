@@ -42,13 +42,22 @@ renderer.render(scene, camera);
 
 const repeatFunction = function(texture) {texture.wrapS = texture.wrapT = THREE.RepeatWrapping;}
 
+// scene.add(new THREE.AxesHelper(500))
+
 const textureLoader = new THREE.TextureLoader();
 
 const marbleBaseColor = textureLoader.load("./tex/Marble_White_007_basecolor.jpg", repeatFunction);
 const marbleNormalMap = textureLoader.load("./tex/Marble_White_007_normal.jpg", repeatFunction);
 const marbleHeightMap = textureLoader.load("./tex/Marble_White_007_height.png", repeatFunction);
 const marbleRoughnessMap = textureLoader.load("./tex/Marble_White_007_roughness.jpg", repeatFunction);
-// const marbleAmbientOcclusion = textureLoader.load("./tex/Marble_White_007_ambientocclusion.jpg", repeatFunction);
+const marbleAmbientOcclusion = textureLoader.load("./tex/Marble_White_007_ambientocclusion.jpg", repeatFunction);
+const woodBaseColor = textureLoader.load("./tex/Wood_Pattern_001_basecolor.jpg", repeatFunction);
+const woodNormalMap = textureLoader.load("./tex/Wood_Pattern_001_normal.jpg", repeatFunction);
+const woodHeightMap = textureLoader.load("./tex/Wood_Pattern_001_height.png", repeatFunction);
+const woodRoughnessMap = textureLoader.load("./tex/Wood_Pattern_001_roughness.jpg", repeatFunction);
+const woodAmbientOcclusion = textureLoader.load("./tex/Wood_Pattern_001_ambientOcclusion.jpg", repeatFunction);
+
+
 
 // const textureMap = new THREE.MeshStandardMaterial({ 
 //   map: marbleBaseColor,
@@ -73,9 +82,9 @@ var awnTexture = new THREE.MeshStandardMaterial(
   {
       map: marbleBaseColor,
       color: 0xA0CCF2,
-      roughness: 0.95,
-      normalMap: marbleNormalMap,
-      bumpMap: marbleHeightMap,
+      roughness: 0.65,
+      normalMap: woodNormalMap,
+      // bumpMap: marbleHeightMap,
 
   }
 );
@@ -85,7 +94,7 @@ var buiTexture = new THREE.MeshStandardMaterial(
       map: marbleBaseColor,
       color: 0xf0ebe4,
       roughness: 0.92,
-
+      normalMap: marbleNormalMap,
   }
 );
 
@@ -149,7 +158,7 @@ loader.load( '/3d/cresprin.glb', function ( gltf ) {
       o.material = ybTexture;
     } 
     console.log(o.name.substring(0, 3))
-    if (o.name.substring(0, 3) == "awn") {
+    if (o.name.substring(0, 5) == "awn") {
       o.material = awnTexture;
       o.castShadow = true;
       o.receiveShadow = true;
@@ -189,6 +198,9 @@ loader.load( '/3d/cresprin.glb', function ( gltf ) {
 
 } );
 
+// const normalHelper = new VertexNormalsHelper( model, 2, 0x00ff00, 1 );
+// scene.add( normalHelper );
+
 
 
 // Torus
@@ -201,7 +213,7 @@ loader.load( '/3d/cresprin.glb', function ( gltf ) {
 
 // Lights
 
-const streetLight1 = new THREE.PointLight(0x000fff, .48);
+const streetLight1 = new THREE.PointLight(0x000fff, .48); //000fff
 streetLight1.position.set(0, 250, 175);
 streetLight1.castShadow = false // true
 scene.add(streetLight1)
@@ -211,12 +223,15 @@ spotLight1.position.set(0, 0, 5);
 spotLight1.castShadow = false // true
 scene.add(streetLight1)
 
-const pointLight = new THREE.PointLight(0xff18f7, .88);
+const hemiLight = new THREE.HemisphereLight(0x144855, 0xffffff, 0.4)
+scene.add(hemiLight)
+
+const pointLight = new THREE.PointLight(0xffffff, .88); //ff18f7
 pointLight.position.set(0, 250, 175);
 
 pointLight.castShadow = true
 
-const ambientLight = new THREE.AmbientLight(0x202E31, 0.12);
+const ambientLight = new THREE.AmbientLight(0x202E31, 0.24);
 scene.add(pointLight, ambientLight); 
 
 const sphereSize = 1;
@@ -309,7 +324,7 @@ function onMouseMove(event) {
   var pos = camera.position.clone().add(dir.multiplyScalar(distance));
   //mouseMesh.position.copy(pos);
 
-  pointLight.position.copy(new THREE.Vector3(pos.x * 2.25, pos.y + 20, pos.z + 16));
+  pointLight.position.copy(new THREE.Vector3(pos.x * .5, 15 + (pos.y/6), pos.z + 16));
   camera.position.x = pos.x * 0.45 - 1;
   // camera.position.y = camera.position.y (pos.y/2)
   camera.lookAt(-2,14,0)
